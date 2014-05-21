@@ -4,6 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends FragmentActivity {
 	@Override
@@ -14,13 +17,21 @@ public class MainActivity extends FragmentActivity {
 		FragmentManager manager = getFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		
-//		if(d.getWidth() > d.getHeight()) {
-//			Fragment1 f1 = new Fragment1();
-//			transaction.replace(android.R.id.content, f1);
-//		} else {
-//			Fragment2 f2 = new Fragment2();
-//			transaction.replace(android.R.id.content, f2);
-//		}
-//		transaction.commit();
+		Fragment1 f1 = new Fragment1();
+		Fragment2 f2 = new Fragment2();
+		transaction.add(R.id.fragment1, f1);
+//		transaction.add(R.id.fragment1, f2);
+		transaction.commit();
+		
+//		Button btn1 = (Button)findViewById(R.id.button1);
+//		btn1.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Fragment2 f2 = new Fragment2();
+//				transaction.replace(android.R.id.content, f2);
+//				transaction.addToBackStack(null);
+//				transaction.commit();
+//			}
+//		});
 	}
 }
