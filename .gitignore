@@ -1,5 +1,7 @@
-/bin/classes/android/support/v7/appcompat/*.class
+/bin
+/gen
 
-/bin/classes/com/ntut/hci_exercise
+/libproject/appcompat_v7/bin
+/libproject/appcompat_v7/gen
 
-/libproject/appcompat_v7/bin/classes/android/support/v7/appcompat
+*.class
