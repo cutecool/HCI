@@ -32,7 +32,8 @@ public class MainActivity extends Activity {
 	Callback surfaceCallback = new Callback() {
 		@Override
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			
+			camera.stopPreview();
+			camera.release();
 		}
 		
 		@Override
@@ -63,6 +64,9 @@ public class MainActivity extends Activity {
 			if(display.getRotation() == Surface.ROTATION_0) {
 				parameters.setPreviewSize(height, width);
 				camera.setDisplayOrientation(90);
+			} else if(display.getRotation() == Surface.ROTATION_270) {
+				parameters.setPreviewSize(height, width);
+				camera.setDisplayOrientation(180);
 			}
 		}
 	};
