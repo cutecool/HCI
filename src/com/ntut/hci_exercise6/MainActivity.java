@@ -1,11 +1,10 @@
-package com.ntut.hci_exercise;
+package com.ntut.hci_exercise6;
 
 import android.app.Activity;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
-import android.text.style.ParagraphStyle;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
@@ -33,7 +32,8 @@ public class MainActivity extends Activity {
 	Callback surfaceCallback = new Callback() {
 		@Override
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			
+			camera.stopPreview();
+			camera.release();
 		}
 		
 		@Override
