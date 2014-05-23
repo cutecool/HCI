@@ -5,10 +5,14 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
+import android.text.style.ParagraphStyle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 	SurfaceView camaraPreview;
@@ -52,6 +56,14 @@ public class MainActivity extends Activity {
 				parameters.setPreviewSize(size.width, size.height);
 				camera.setParameters(parameters);
 				camera.startPreview();
+			}
+			
+			WindowManager wm = getWindowManager();
+			Display display = wm.getDefaultDisplay();
+			
+			if(display.getRotation() == Surface.ROTATION_0) {
+				parameters.setPreviewSize(height, width);
+				camera.setDisplayOrientation(90);
 			}
 		}
 	};
