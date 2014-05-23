@@ -1,11 +1,10 @@
-package com.ntut.hci_exercise;
+package com.ntut.hci_exercise5;
 
 import android.app.Activity;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
-import android.text.style.ParagraphStyle;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
