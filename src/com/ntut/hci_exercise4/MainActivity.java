@@ -1,4 +1,4 @@
-package com.ntut.hci_exercise;
+package com.ntut.hci_exercise4;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

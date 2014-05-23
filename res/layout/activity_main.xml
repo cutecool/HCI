@@ -3,12 +3,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ntut.hci_exercise.MainActivity"
+    tools:context="com.ntut.hci_exercise4.MainActivity"
     tools:ignore="MergeRootFrame" >
 
     <fragment
         android:id="@+id/fragment1"
-        android:name="com.ntut.hci_exercise.Fragment1"
+        android:name="com.ntut.hci_exercise4.Fragment1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
  

@@ -3,19 +3,19 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ntut.hci_exercise.MainActivity"
+    tools:context="com.ntut.hci_exercise4.MainActivity"
     tools:ignore="MergeRootFrame" >
 
     <fragment
         android:id="@+id/fragment1"
-        android:name="com.ntut.hci_exercise.Fragment1"
+        android:name="com.ntut.hci_exercise4.Fragment1"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="match_parent" />
 
     <fragment
         android:id="@+id/fragment2"
-        android:name="com.ntut.hci_exercise.Fragment2"
+        android:name="com.ntut.hci_exercise4.Fragment2"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="match_parent" />
