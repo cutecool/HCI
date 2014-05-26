@@ -5,3 +5,5 @@
 /libproject/appcompat_v7/gen
 
 *.class
+/.settings/*.prefs
+/libproject/appcompat_v7/.settings/*.prefs
