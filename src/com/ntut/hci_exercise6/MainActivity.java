@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
@@ -60,6 +61,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				camera.takePicture(null, null, picCallback);
+				camera.startPreview();
 			}
 		});
 	}
@@ -118,11 +120,22 @@ public class MainActivity extends Activity {
 			try {
 				File f = new File(SAVE_PICTURE_PATH + File.separator + "Camera_"
 						 + System.currentTimeMillis() + ".jpg");
+				Matrix matrix = new Matrix();
+				WindowManager wm = getWindowManager();
+				Display display = wm.getDefaultDisplay();
+				if(display.getRotation() == Surface.ROTATION_0) {
+					matrix.setRotate(90);
+				} else if(display.getRotation() == Surface.ROTATION_90) {
+					matrix.setRotate(0);
+				} else if(display.getRotation() == Surface.ROTATION_270) {
+					matrix.setRotate(180);
+				}
+				
 	            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
-	            mBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+	            Bitmap resizedBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+	            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
 	            out.flush();
 	            out.close();
-	            camera.stopPreview();
             } catch (FileNotFoundException e) {
 	            e.printStackTrace();
             } catch (IOException e) {
