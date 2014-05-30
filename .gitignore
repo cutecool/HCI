@@ -1,8 +1,8 @@
 /bin
 /gen
 
-/libproject/appcompat_v7/bin
-/libproject/appcompat_v7/gen
+/libproject/appcompat_v7/bin/*
+/libproject/appcompat_v7/gen/*
 
 *.class
 /.settings/*.prefs
