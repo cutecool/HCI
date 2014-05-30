@@ -1,4 +1,6 @@
-package com.ntut.hci_exercise;
+package com.ntut.hci_exercise7;
+
+import com.ntut.hci_exercise.R;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

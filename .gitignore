@@ -1,5 +1,5 @@
-/bin
-/gen
+/bin/*
+/gen/*
 
 /libproject/appcompat_v7/bin/*
 /libproject/appcompat_v7/gen/*
