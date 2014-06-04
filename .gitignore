@@ -3,7 +3,12 @@
 
 /libproject/appcompat_v7/bin/*
 /libproject/appcompat_v7/gen/*
+/libproject/appcompat_v7/.settings/*.prefs
+
+/libproject/Rajawali-master/bin/*
+/libproject/Rajawali-master/gen/*
+/libproject/Rajawali-master/.settings/*.prefs
+/libproject/Rajawali-master/doc/*
 
 *.class
 /.settings/*.prefs
-/libproject/appcompat_v7/.settings/*.prefs
