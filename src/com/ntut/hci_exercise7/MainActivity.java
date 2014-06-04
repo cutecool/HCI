@@ -51,7 +51,6 @@ public class MainActivity extends RajawaliActivity {
 			
 			mPlane = new Plane(2.0f, 2.0f, 1, 1, Axis.Z, true, true, 1);
 			mPlane.setMaterial(mMaterial);
-			
 			mPlane.setLookAt(getCurrentCamera().getPosition());
 			
 			getCurrentScene().addLight(mLight);
