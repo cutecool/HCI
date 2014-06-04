@@ -45,7 +45,8 @@ public class MainActivity extends RajawaliActivity {
 			mLight.setColor(1.0f, 1.0f, 1.0f);
 			mLight.setPower(2);
 
-			mMaterial = new Material(new VertexShader(""), new FragmentShader());
+//			mMaterial = new Material(new VertexShader(), new FragmentShader());
+			mMaterial = new Material();
 			mMaterial.setColor(colors);
 			
 			mPlane = new Plane(2.0f, 2.0f, 1, 1, Axis.Z, true, true, 1);
