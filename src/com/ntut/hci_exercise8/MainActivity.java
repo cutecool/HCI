@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import rajawali.RajawaliActivity;
 import rajawali.lights.DirectionalLight;
 import rajawali.materials.Material;
+import rajawali.materials.methods.DiffuseMethod;
 import rajawali.materials.shaders.FragmentShader;
 import rajawali.materials.shaders.VertexShader;
 import rajawali.math.vector.Vector3.Axis;
@@ -45,17 +46,13 @@ public class MainActivity extends RajawaliActivity {
 			mLight.setColor(1.0f, 1.0f, 1.0f);
 			mLight.setPower(2);
 
-//			mMaterial = new Material(new VertexShader(), new FragmentShader());
 			mMaterial = new Material();
-			mMaterial.setColor(colors);
+			mMaterial.enableTime(true);
 			
 			mPlane = new Plane(2.0f, 2.0f, 1, 1, Axis.Z, true, true, 1);
 			mPlane.setMaterial(mMaterial);
-			mPlane.setLookAt(getCurrentCamera().getPosition());
-			
-			getCurrentScene().addLight(mLight);
 			getCurrentScene().addChild(mPlane);
-			getCurrentCamera().setZ(6);
+			getCurrentCamera().setPosition(0, 0, 10);
 		}
 
 		public void onDrawFrame(GL10 glUnused) {
