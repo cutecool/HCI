@@ -1,4 +1,4 @@
-package com.ntut.hci_exercise7;
+package com.ntut.hci_exercise8;
 
 import javax.microedition.khronos.opengles.GL10;
 
