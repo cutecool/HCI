@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 
-import com.ntut.hci_exercise.R;
+import com.ntut.hci_exercise7.R;
 
 public class GeomView extends View implements Runnable {
 	private Paint paint01 = null;
