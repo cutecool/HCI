@@ -1,4 +1,4 @@
-package com.ntut.hci_exercise8;
+package com.ntut.hci_exercise9;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;

@@ -1,4 +1,4 @@
-package com.ntut.hci_exercise8;
+package com.ntut.hci_exercise9;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -50,7 +50,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		if (mTranslucentBackground) {
-			gl.glClearColor(0, 0, 0, 0);
+			gl.glClearColor(1, 0, 0, 0);
 		} else {
 			gl.glClearColor(1, 1, 1, 1);
 		}
