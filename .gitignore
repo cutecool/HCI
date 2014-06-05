@@ -3,7 +3,7 @@
 
 /libproject/appcompat_v7/bin/*
 /libproject/appcompat_v7/gen/*
+/libproject/appcompat_v7/.settings/*.prefs
 
 *.class
 /.settings/*.prefs
-/libproject/appcompat_v7/.settings/*.prefs
