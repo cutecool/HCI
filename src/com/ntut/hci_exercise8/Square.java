@@ -15,10 +15,10 @@ public class Square {
 		byte maxColor = (byte)255;
 		
 		float vertices[] = {
-				-1.0f, -1.0f,
-				1.0f, -1.0f,
-				-1.0f, 1.0f,
-				1.0f, 1.0f
+				-2.0f, -2.0f,
+				2.0f, -2.0f,
+				-2.0f, 2.0f,
+				2.0f, 2.0f
 		};
 		
 		byte colors[] = {
@@ -28,7 +28,7 @@ public class Square {
 				maxColor, 0, maxColor, maxColor
 		};
 		
-		byte indices[] = {0, 3, 1,0, 2, 3};
+		byte indices[] = {0, 3, 1, 0, 2, 3};
 		
 		ByteBuffer vbb =ByteBuffer.allocateDirect(vertices.length * 4);
 		vbb.order(ByteOrder.nativeOrder());
