@@ -1,4 +1,4 @@
-package com.ntut.airhockey;
+package com.ntut.airhockey1;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_FLOAT;
@@ -25,9 +25,9 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 
-import com.ntut.airhockey.LoggerConfig;
-import com.ntut.airhockey.ShaderHelper;
-import com.ntut.airhockey.TextResourceReader;
+import com.ntut.airhockey1.util.LoggerConfig;
+import com.ntut.airhockey1.util.ShaderHelper;
+import com.ntut.airhockey1.util.TextResourceReader;
 
 public class AirHockeyRenderer implements Renderer {    
     private static final String A_POSITION = "a_Position";

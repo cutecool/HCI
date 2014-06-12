@@ -1,4 +1,4 @@
-package com.ntut.airhockey;
+package com.ntut.airhockey1;
 
 import android.app.Activity;
 import android.app.ActivityManager;

@@ -1,4 +1,4 @@
-package com.ntut.airhockey;
+package com.ntut.airhockey1.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
