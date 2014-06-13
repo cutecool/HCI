@@ -1,4 +1,4 @@
-package com.ntut.airhockey1;
+package com.ntut.airhockey2;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_FLOAT;
@@ -30,10 +30,11 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 
-import com.ntut.airhockey1.util.LoggerConfig;
-import com.ntut.airhockey1.util.MatrixHelper;
-import com.ntut.airhockey1.util.ShaderHelper;
-import com.ntut.airhockey1.util.TextResourceReader;
+import com.ntut.airhockey2.R;
+import com.ntut.airhockey2.util.LoggerConfig;
+import com.ntut.airhockey2.util.MatrixHelper;
+import com.ntut.airhockey2.util.ShaderHelper;
+import com.ntut.airhockey2.util.TextResourceReader;
 
 public class AirHockeyRenderer implements Renderer {    
     private static final String U_MATRIX = "u_Matrix";
@@ -167,7 +168,7 @@ public class AirHockeyRenderer implements Renderer {
         setIdentityM(modelMatrix, 0);
         
         translateM(modelMatrix, 0, 0f, 0f, -2.5f);        
-        rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
+        rotateM(modelMatrix, 0, -60f, 0f, 0f, 1f);
         
         final float[] temp = new float[16];
         multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);        

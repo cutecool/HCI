@@ -1,4 +1,4 @@
-package com.ntut.airhockey1.util;
+package com.ntut.airhockey2.util;
 
 import static android.opengl.GLES20.GL_COMPILE_STATUS;
 import static android.opengl.GLES20.GL_FRAGMENT_SHADER;

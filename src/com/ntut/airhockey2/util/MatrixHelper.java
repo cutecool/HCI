@@ -1,4 +1,4 @@
-package com.ntut.airhockey1.util;
+package com.ntut.airhockey2.util;
 
 public class MatrixHelper {
     public static void perspectiveM(float[] m, float yFovInDegrees, float aspect,
