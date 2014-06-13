@@ -4,16 +4,21 @@ import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_LINES;
 import static android.opengl.GLES20.GL_POINTS;
-import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glGetAttribLocation;
+import static android.opengl.GLES20.glGetUniformLocation;
+import static android.opengl.GLES20.glUniformMatrix4fv;
 import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
+import static android.opengl.Matrix.multiplyMM;
+import static android.opengl.Matrix.rotateM;
+import static android.opengl.Matrix.setIdentityM;
+import static android.opengl.Matrix.translateM;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -26,75 +31,70 @@ import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.ntut.airhockey1.util.LoggerConfig;
+import com.ntut.airhockey1.util.MatrixHelper;
 import com.ntut.airhockey1.util.ShaderHelper;
 import com.ntut.airhockey1.util.TextResourceReader;
 
 public class AirHockeyRenderer implements Renderer {    
+    private static final String U_MATRIX = "u_Matrix";
     private static final String A_POSITION = "a_Position";
-    private static final String A_COLOR = "a_Color";    
+    private static final String A_COLOR = "a_Color";
     private static final int POSITION_COMPONENT_COUNT = 2;
     private static final int COLOR_COMPONENT_COUNT = 3;    
     private static final int BYTES_PER_FLOAT = 4;
-    private static final int STRIDE = 
-        (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;
-    
+    private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;    
     private final FloatBuffer vertexData;
     private final Context context;
-
+    private final float[] projectionMatrix = new float[16];
+    private final float[] modelMatrix = new float[16];
     private int program;
+    private int uMatrixLocation;
     private int aPositionLocation;
     private int aColorLocation;
 
     public AirHockeyRenderer(Context context) {
         this.context = context;
-        // Vertex data is stored in the following manner:
-        // The first two numbers are part of the position: X, Y
-        // The next three numbers are part of the color: R, G, B
+        
+        /*
+        float[] tableVerticesWithTriangles = {   
+            // Order of coordinates: X, Y, Z, W, R, G, B
+            
+            // Triangle Fan
+               0f,    0f, 0f, 1.5f,   1f,   1f,   1f,         
+            -0.5f, -0.8f, 0f,   1f, 0.7f, 0.7f, 0.7f,            
+             0.5f, -0.8f, 0f,   1f, 0.7f, 0.7f, 0.7f,
+             0.5f,  0.8f, 0f,   2f, 0.7f, 0.7f, 0.7f,
+            -0.5f,  0.8f, 0f,   2f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0f,   1f, 0.7f, 0.7f, 0.7f,            
+
+            // Line 1
+            -0.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
+             0.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
+
+            // Mallets
+            0f, -0.4f, 0f, 1.25f, 0f, 0f, 1f,
+            0f,  0.4f, 0f, 1.75f, 1f, 0f, 0f
+        };
+        */        
         float[] tableVerticesWithTriangles = {   
             // Order of coordinates: X, Y, R, G, B
-            // Triangle Fan  0 6
-               0f,    0f, 1f, 1f, 1f,         
-            -0.5f, -0.5f, 1f, 1f, 1f,            
-             0.5f, -0.5f, 1f, 1f, 1f,
-             0.5f,  0.5f, 1f, 1f, 1f,
-            -0.5f,  0.5f, 1f, 1f, 1f,
-            -0.5f, -0.5f, 1f, 1f, 1f,
             
-            //T1  6 3
-               0f, 0.75f, 1f, 1f, 1f,
-            -0.5f,  0.5f, 1f, 1f, 1f,
-             0.5f,  0.5f, 1f, 1f, 1f,
-    
-            //T2  9 3
-            -0.5f, -0.5f , 1f, 1f, 1f,
-               0f, -0.75f, 1f, 1f, 1f,
-             0.5f, -0.5f , 1f, 1f, 1f,
+            // Triangle Fan
+               0f,    0f,   1f,   1f,   1f,         
+            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,            
+             0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+             0.5f,  0.8f, 0.7f, 0.7f, 0.7f,
+            -0.5f,  0.8f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 
-            // Line 1  12 2
+            // Line 1
             -0.5f, 0f, 1f, 0f, 0f,
              0.5f, 0f, 1f, 0f, 0f,
 
-            // L2  14 2
-               0f,  0.5f, 0f, 0f, 1f,
-               0f, -0.5f, 0f, 0f, 1f,
-               
-            // L3  16 2
-            -0.5f, 0.5f, 0f, 0f, 0f,
-             0.5f, 0.5f, 0f, 0f, 0f,
-
-            // L4  18 2
-            -0.5f, -0.5f, 0f, 0f, 0f,
-             0.5f, -0.5f, 0f, 0f, 0f,
-             
-            // P1  20 1
-            -0.25f,  0.25f, 0f, 0f, 0f,
-            // P2  21 1
-             0.25f,  0.25f, 1f, 1f, 0f,
-            // P3  22 1
-             0.25f, -0.25f, 0f, 1f, 1f,
-            // P4  23 1
-             -0.25f, -0.25f, 1f, 0f, 1f,
-        };
+            // Mallets
+            0f, -0.4f, 0f, 0f, 1f,
+            0f,  0.4f, 1f, 0f, 0f
+        };        
 
         vertexData = ByteBuffer
             .allocateDirect(tableVerticesWithTriangles.length * BYTES_PER_FLOAT)
@@ -122,7 +122,9 @@ public class AirHockeyRenderer implements Renderer {
             ShaderHelper.validateProgram(program);
         }
 
-        glUseProgram(program);   
+        glUseProgram(program);
+        
+        uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
         
         aPositionLocation = glGetAttribLocation(program, A_POSITION);
         aColorLocation = glGetAttribLocation(program, A_COLOR);
@@ -130,16 +132,16 @@ public class AirHockeyRenderer implements Renderer {
         // Bind our data, specified by the variable vertexData, to the vertex
         // attribute at location A_POSITION_LOCATION.
         vertexData.position(0);
-        glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, 
-            false, STRIDE, vertexData);
+        glVertexAttribPointer(aPositionLocation,
+            POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
 
         glEnableVertexAttribArray(aPositionLocation);     
-        
+                
         // Bind our data, specified by the variable vertexData, to the vertex
         // attribute at location A_COLOR_LOCATION.
         vertexData.position(POSITION_COMPONENT_COUNT);        
-        glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GL_FLOAT, 
-            false, STRIDE, vertexData);        
+        glVertexAttribPointer(aColorLocation,
+            COLOR_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);        
 
         glEnableVertexAttribArray(aColorLocation);
     }
@@ -159,6 +161,17 @@ public class AirHockeyRenderer implements Renderer {
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         // Set the OpenGL viewport to fill the entire surface.
         glViewport(0, 0, width, height);
+        
+        MatrixHelper.perspectiveM(projectionMatrix, 45, (float) width / (float) height, 1f, 10f);
+        
+        setIdentityM(modelMatrix, 0);
+        
+        translateM(modelMatrix, 0, 0f, 0f, -2.5f);        
+        rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
+        
+        final float[] temp = new float[16];
+        multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);        
+        System.arraycopy(temp, 0, projectionMatrix, 0, temp.length);
     }
 
     /**
@@ -169,35 +182,20 @@ public class AirHockeyRenderer implements Renderer {
     public void onDrawFrame(GL10 glUnused) {
         // Clear the rendering surface.
         glClear(GL_COLOR_BUFFER_BIT);
+                        
+        // Assign the matrix
+        glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
 
         // Draw the table.        
         glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
-        
-        // T1
-        glDrawArrays(GL_TRIANGLES, 6, 3);
-      
-        // T2
-        glDrawArrays(GL_TRIANGLES, 9, 3);
 
-        // L1
-        glDrawArrays(GL_LINES, 12, 2);
+        // Draw the center dividing line.        
+        glDrawArrays(GL_LINES, 6, 2);
 
-        // L2
-        glDrawArrays(GL_LINES, 14, 2);
-        
-        // L3
-        glDrawArrays(GL_LINES, 16, 2);
-        
-        // L4
-        glDrawArrays(GL_LINES, 18, 2);
-        
-        // P1
-        glDrawArrays(GL_POINTS, 20, 1);
-        // P2
-        glDrawArrays(GL_POINTS, 21, 1);
-        // P3
-        glDrawArrays(GL_POINTS, 22, 1);
-        // P4
-        glDrawArrays(GL_POINTS, 23, 1);
+        // Draw the first mallet.        
+        glDrawArrays(GL_POINTS, 8, 1);
+
+        // Draw the second mallet.
+        glDrawArrays(GL_POINTS, 9, 1);
     }
 }

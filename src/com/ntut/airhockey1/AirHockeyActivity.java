@@ -44,7 +44,6 @@ public class AirHockeyActivity extends Activity {
 		if (supportsEs2) {
 			// Request an OpenGL ES 2.0 compatible context.
 			glSurfaceView.setEGLContextClientVersion(2);
-			glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 
 			// Assign our renderer.
 			glSurfaceView.setRenderer(new AirHockeyRenderer(this));
